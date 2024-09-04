@@ -6,11 +6,8 @@
 
 #define DHTTYPE DHT11
 
-
-
 DHT_Unified dht(DHTPIN, DHTTYPE);
 
-uint32_t delayMS;
 
 void DHTsetup() {
   // Initialize device.

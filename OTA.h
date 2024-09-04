@@ -1,8 +1,4 @@
-// OTA.h
-#ifndef OTA_H
-#define OTA_H
-
-#include <WiFi.h>          // Ensure the WiFi library is included to use WiFi functions
+#include <WiFi.h>
 #include <ESPmDNS.h>       // Include for mDNS support
 #include <ArduinoOTA.h>    // Include for OTA functionalities
 
@@ -27,6 +23,8 @@ void OTA_setup() {
 
   // OTA setup configurations
   ArduinoOTA.setHostname("WebServer");  // Set OTA Hostname
+  ArduinoOTA.setPassword("Created");
+
   ArduinoOTA
       .onStart([]() {
         String type = (ArduinoOTA.getCommand() == U_FLASH) ? "sketch" : "filesystem";
@@ -51,14 +49,9 @@ void OTA_setup() {
 
   ArduinoOTA.begin();  // Start OTA service
 
-  // Print IP address after successful connection
-  Serial.println("Ready");
-  Serial.print("IP address: ");
-  Serial.println(WiFi.localIP());
 }
 
 void OTA_loop() {
   ArduinoOTA.handle();  // Regularly call this in the main loop to handle OTA updates
 }
 
-#endif
