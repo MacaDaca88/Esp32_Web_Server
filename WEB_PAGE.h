@@ -6,19 +6,22 @@ void handleRoot() {
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Home Main Control</title>
+        <title>Home Control</title>
         <style>
-          body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background-color: #f0f0f0;
-          }
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-image: url('https://wallpapers.com/images/featured-full/ambient-background-b6kd5x4jm5nlr2r2.jpg');
+  background-size: cover;  /* Adjusts the image to cover the entire background */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents the image from repeating */
+}
           h1 {
             font-size: 2.5vw;
             margin: 2% 0;
@@ -55,7 +58,7 @@ void handleRoot() {
             padding: 10px;
             margin: 10px;
             border-radius: 10px;
-            width: 25%;
+            width: 15%;
             max-width: 300px;
             font-size: 1rem;
             background-color: #ffffff;
@@ -64,7 +67,7 @@ void handleRoot() {
             display: flex;
             flex-direction: row;
             align-items: center;
-            gap: 10px;
+            gap: 20px;
             margin: 20px 0;
           }
           .Colorbox {
@@ -83,6 +86,9 @@ void handleRoot() {
             width: 60px;
             margin-top: 10px;
             text-align: center;
+          }
+          input[type='range'] {
+            width: 80%;
           }
           .send-button {
             margin-top: 20px;
@@ -141,18 +147,21 @@ void handleRoot() {
         <div class="ColorInputContainer">
           <div class="Colorbox" style="background-color: rgba(255, 0, 0, 0.1);">
             <label for="redValue">RED</label>
-            <input type="number" id="redValue" min="0" max="255" value="0">
+            <input type="range" id="redSlider" min="0" max="255" value="0" oninput="updateValue('redSlider', 'redValue')">
+            <input type="number" id="redValue" min="0" max="255" value="0" oninput="updateSlider('redValue', 'redSlider')">
           </div>
           <div class="Colorbox" style="background-color: rgba(0, 255, 0, 0.1);">
             <label for="greenValue">GREEN</label>
-            <input type="number" id="greenValue" min="0" max="255" value="0">
+            <input type="range" id="greenSlider" min="0" max="255" value="0" oninput="updateValue('greenSlider', 'greenValue')">
+            <input type="number" id="greenValue" min="0" max="255" value="0" oninput="updateSlider('greenValue', 'greenSlider')">
           </div>
           <div class="Colorbox" style="background-color: rgba(0, 0, 255, 0.1);">
             <label for="blueValue">BLUE</label>
-            <input type="number" id="blueValue" min="0" max="255" value="0">
+            <input type="range" id="blueSlider" min="0" max="255" value="0" oninput="updateValue('blueSlider', 'blueValue')">
+            <input type="number" id="blueValue" min="0" max="255" value="0" oninput="updateSlider('blueValue', 'blueSlider')">
           </div>
         </div>
-          <button class="send-button" onclick="sendRGB()">Send</button>
+        <button class="send-button" onclick="sendRGB()">Send</button>
 
         <script>
           var serialSource = new EventSource('/serial');
@@ -168,6 +177,14 @@ void handleRoot() {
           ledStateSource.onmessage = function(event) {
             document.getElementById('ledStateBox').innerHTML = event.data;
           };
+
+          function updateValue(sliderId, inputId) {
+            document.getElementById(inputId).value = document.getElementById(sliderId).value;
+          }
+
+          function updateSlider(inputId, sliderId) {
+            document.getElementById(sliderId).value = document.getElementById(inputId).value;
+          }
 
           function sendRGB() {
             var red = document.getElementById('redValue').value;
