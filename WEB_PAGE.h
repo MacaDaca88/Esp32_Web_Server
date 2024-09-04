@@ -17,15 +17,12 @@ void handleRoot() {
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            //min-height: 100vh;
             background-color: #f0f0f0;
           }
-
           h1 {
             font-size: 2.5vw;
             margin: 2% 0;
           }
-
           .button {
             border: none;
             color: white;
@@ -36,15 +33,12 @@ void handleRoot() {
             border-radius: 50%;
             transition: background-color 0.3s ease;
           }
-
           .green {
             background-color: green;
           }
-
           .red {
             background-color: red;
           }
-
           .Serialbox {
             border: 1px solid #ccc;
             padding: 20px;
@@ -56,7 +50,6 @@ void handleRoot() {
             max-width: 800px;
             background-color: #ffffff;
           }
-
           .Ledbox {
             border: 2px solid #ccc;
             padding: 10px;
@@ -67,71 +60,70 @@ void handleRoot() {
             font-size: 1rem;
             background-color: #ffffff;
           }
-
-          .Redbox {
+          .ColorInputContainer {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+            margin: 20px 0;
+          }
+          .Colorbox {
             border: 2px solid #ccc;
             padding: 10px;
-            margin: 10px;
             border-radius: 10px;
-            width: 33%;
+            width: 80%;
             max-width: 300px;
             font-size: 1rem;
-            background-color: red;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f0f0;
           }
-          .Greenbox {
-            border: 2px solid #ccc;
-            padding: 10px;
-            margin: 10px;
-            border-radius: 10px;
-            width: 33%;
-            max-width: 300px;
-            font-size: 1rem;
-            background-color: green;
+          input[type='number'] {
+            width: 60px;
+            margin-top: 10px;
+            text-align: center;
           }
-          .Bluebox {
-            border: 2px solid #ccc;
-            padding: 10px;
-            margin: 10px;
-            border-radius: 10px;
-            width: 33%;
-            max-width: 300px;
-            font-size: 1rem;
-            background-color: blue;
+          .send-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            transition: background-color 0.3s ease;
           }
-          
+          .send-button:hover {
+            background-color: #0056b3;
+          }
           @media (max-width: 768px) {
             h1 {
               font-size: 5vw;
             }
-
             .button {
               padding: 10px 15px;
               font-size: 1rem;
             }
-
             .Serialbox {
               height: 30vh;
             }
-
             .Ledbox {
               width: 80%;
             }
           }
-
-          @media (min-width: 2560px) { /* For 4K screens */
+          @media (min-width: 2560px) {
             h1 {
               font-size: 2vw;
             }
-
             .button {
               padding: 20px 25px;
               font-size: 1.5rem;
             }
-
             .Serialbox {
               height: 25vh;
             }
-
             .Ledbox {
               font-size: 1.2rem;
             }
@@ -146,9 +138,21 @@ void handleRoot() {
         <button class="button green" onclick="location.href='/ledOn'">ON</button>
         <button class="button red" onclick="location.href='/ledOff'">OFF</button>
         <br>
-        <div class="Redbox" id="Redbox">RED</div>
-        <div class="Greenbox" id="Redbox">GREEN</div>
-        <div class="Bluebox" id="Redbox">BLUE</div>
+        <div class="ColorInputContainer">
+          <div class="Colorbox" style="background-color: rgba(255, 0, 0, 0.1);">
+            <label for="redValue">RED</label>
+            <input type="number" id="redValue" min="0" max="255" value="0">
+          </div>
+          <div class="Colorbox" style="background-color: rgba(0, 255, 0, 0.1);">
+            <label for="greenValue">GREEN</label>
+            <input type="number" id="greenValue" min="0" max="255" value="0">
+          </div>
+          <div class="Colorbox" style="background-color: rgba(0, 0, 255, 0.1);">
+            <label for="blueValue">BLUE</label>
+            <input type="number" id="blueValue" min="0" max="255" value="0">
+          </div>
+        </div>
+          <button class="send-button" onclick="sendRGB()">Send</button>
 
         <script>
           var serialSource = new EventSource('/serial');
@@ -164,6 +168,18 @@ void handleRoot() {
           ledStateSource.onmessage = function(event) {
             document.getElementById('ledStateBox').innerHTML = event.data;
           };
+
+          function sendRGB() {
+            var red = document.getElementById('redValue').value;
+            var green = document.getElementById('greenValue').value;
+            var blue = document.getElementById('blueValue').value;
+            var rgbValues = `${red},${green},${blue}`;
+            console.log('Sending RGB values:', rgbValues);
+            fetch(`/setRGB?values=${rgbValues}`)
+              .then(response => response.text())
+              .then(data => console.log('Response from ESP32:', data))
+              .catch(error => console.error('Error sending RGB values:', error));
+          }
         </script>
       </body>
     </html>

@@ -1,9 +1,13 @@
 
+#include <Adafruit_NeoPixel.h>
 #include "OTA.h"        // Handles OTA updates
 #include <WebServer.h>  // Web server library
 
 #define LED 5
+#define LED_PIN 17      // Define the pin where the WS2812B is connected
+#define NUM_LEDS 8      // Number of LEDs in the strip
 
+Adafruit_NeoPixel strip(NUM_LEDS, LED_PIN, NEO_GRB + NEO_KHZ800);
 WebServer server(80);  // Create a web server object on port 80
 
 String serialData = "";  // Store serial data for streaming
@@ -19,6 +23,8 @@ void setup() {
   SENSORsetup();      // Initialize sensors
   pinMode(LED, OUTPUT);
   digitalWrite(LED, LOW);  // Turn off the LED initially
+    strip.begin();      // Initialize the LED strip
+  strip.show();       // Initialize all pixels to 'off'
 
   // Define server routes
   server.on("/", handleRoot);
@@ -26,7 +32,7 @@ void setup() {
   server.on("/ledOff", handleLedOff);
   server.on("/ledState", handleLedState);    // Route for LED state stream
   server.on("/serial", handleSerialData);    // Route for serial data stream
-
+server.on("/setRGB", handleSetRGB);        // Route for setting RGB values
   // Start the server
   server.begin();
   printToSerialAndWeb("Web server started");
@@ -54,4 +60,23 @@ void handleLedOff() {
   ledState = false;
   server.sendHeader("Location", "/");
   server.send(303);  // Redirect to the main page
+}
+// Function to handle RGB value updates
+void handleSetRGB() {
+  if (server.hasArg("values")) {
+    String rgbValues = server.arg("values");
+    int red, green, blue;
+    sscanf(rgbValues.c_str(), "%d,%d,%d", &red, &green, &blue);
+    
+    // Update LED strip color
+    for (int i = 0; i < NUM_LEDS; i++) {
+      strip.setPixelColor(i, strip.Color(red, green, blue));
+    }
+    strip.show();
+    
+    printToSerialAndWeb("RGB values set to: " + rgbValues);
+    server.send(200, "text/plain", "RGB values set to: " + rgbValues);
+  } else {
+    server.send(400, "text/plain", "Missing RGB values");
+  }
 }
