@@ -145,17 +145,17 @@ body {
         <button class="button red" onclick="location.href='/ledOff'">OFF</button>
         <br>
         <div class="ColorInputContainer">
-          <div class="Colorbox" style="background-color: rgba(255, 0, 0, 0.1);">
+          <div class="Colorbox" style="background-color: rgba(255, 0, 0, 0.6);">
             <label for="redValue">RED</label>
             <input type="range" id="redSlider" min="0" max="255" value="0" oninput="updateValue('redSlider', 'redValue')">
             <input type="number" id="redValue" min="0" max="255" value="0" oninput="updateSlider('redValue', 'redSlider')">
           </div>
-          <div class="Colorbox" style="background-color: rgba(0, 255, 0, 0.1);">
+          <div class="Colorbox" style="background-color: rgba(0, 255, 0, 0.6);">
             <label for="greenValue">GREEN</label>
             <input type="range" id="greenSlider" min="0" max="255" value="0" oninput="updateValue('greenSlider', 'greenValue')">
             <input type="number" id="greenValue" min="0" max="255" value="0" oninput="updateSlider('greenValue', 'greenSlider')">
           </div>
-          <div class="Colorbox" style="background-color: rgba(0, 0, 255, 0.1);">
+          <div class="Colorbox" style="background-color: rgba(0, 0, 255, 0.6);">
             <label for="blueValue">BLUE</label>
             <input type="range" id="blueSlider" min="0" max="255" value="0" oninput="updateValue('blueSlider', 'blueValue')">
             <input type="number" id="blueValue" min="0" max="255" value="0" oninput="updateSlider('blueValue', 'blueSlider')">
