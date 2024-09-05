@@ -8,20 +8,20 @@ void handleRoot() {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Home Control</title>
         <style>
-body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-image: url('https://wallpapers.com/images/featured-full/ambient-background-b6kd5x4jm5nlr2r2.jpg');
-  background-size: cover;  /* Adjusts the image to cover the entire background */
-  background-position: center; /* Centers the image */
-  background-repeat: no-repeat; /* Prevents the image from repeating */
-}
+          body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-image: url('https://wallpapers.com/images/featured-full/ambient-background-b6kd5x4jm5nlr2r2.jpg');
+            background-size: cover;  /* Adjusts the image to cover the entire background */
+            background-position: center; /* Centers the image */
+            background-repeat: no-repeat; /* Prevents the image from repeating */
+          }
           h1 {
             font-size: 2.5vw;
             margin: 2% 0;
@@ -162,7 +162,7 @@ body {
           </div>
         </div>
         <button class="send-button" onclick="sendRGB()">Send</button>
-
+        <br>
         <script>
           var serialSource = new EventSource('/serial');
           serialSource.onmessage = function(event) {
@@ -176,7 +176,7 @@ body {
           var ledStateSource = new EventSource('/ledState');
           ledStateSource.onmessage = function(event) {
             document.getElementById('ledStateBox').innerHTML = event.data;
-          };
+          }
 
           function updateValue(sliderId, inputId) {
             document.getElementById(inputId).value = document.getElementById(sliderId).value;
