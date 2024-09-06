@@ -7,7 +7,6 @@
 WebServer server(80);  // Create a web server object on port 80
 
 String serialData = "";  // Store serial data for streaming
-bool ledState = false;   // Variable to store LED state
 
 #include "HANDLE.h"    // Contains route handlers and helper functions
 #include "SENSORS.h"   // Contains sensor setup and loop functions

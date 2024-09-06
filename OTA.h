@@ -22,7 +22,7 @@ void OTA_setup() {
   }
 
   // OTA setup configurations
-  //ArduinoOTA.setHostname("WebServer");  // Set OTA Hostname
+  ArduinoOTA.setHostname("WebServer");  // Set OTA Hostname
   //ArduinoOTA.setPassword("Created");
 
   ArduinoOTA

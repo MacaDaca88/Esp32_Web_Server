@@ -63,15 +63,15 @@ void DHTloop() {
   if (isnan(event.temperature)) {
     printToSerialAndWeb("Error reading temperature!");
   } else {
-    printToSerialAndWeb("Temperature: " + String(event.temperature) + "°C"); // Convert float to String
+   // printToSerialAndWeb("Temperature: " + String(event.temperature) + "°C"); // Convert float to String
   }
 
   // Get humidity event and print its value
   dht.humidity().getEvent(&event);
-  printToSerialAndWeb("Humidity: 50%");
+  //printToSerialAndWeb("Humidity: 50%");
   if (isnan(event.relative_humidity)) {
     printToSerialAndWeb("Error reading humidity!");
   } else {
-    printToSerialAndWeb("Humidity: " + String(event.relative_humidity) + "%"); // Convert float to String
+  //printToSerialAndWeb("Humidity: " + String(event.relative_humidity) + "%"); // Convert float to String
   }
 }

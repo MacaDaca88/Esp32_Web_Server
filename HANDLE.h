@@ -9,7 +9,7 @@ void handleSerialData() {
 // Function to send LED state to the webpage
 void handleLedState() {
   String state = ledState ? "LED is ON" : "LED is OFF";
-  server.send(200, "text/event-stream", "retry: 5000\n"
+  server.send(200, "text/event-stream", "retry: 500\n"
                                         "data: "
                                           + state + "\n\n");
 }

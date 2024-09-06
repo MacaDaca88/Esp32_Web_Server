@@ -7,6 +7,8 @@
 
 Adafruit_NeoPixel strip(NUM_LEDS, LED_PIN, NEO_GRB + NEO_KHZ800);
 
+bool ledState = false;   // Variable to store LED state
+
 
 void LEDsetup() {
 
