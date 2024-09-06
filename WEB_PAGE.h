@@ -18,23 +18,31 @@ void handleRoot() {
             align-items: center;
             justify-content: center;
             background-image: url('https://wallpapers.com/images/featured-full/ambient-background-b6kd5x4jm5nlr2r2.jpg');
-            background-size: cover;  /* Adjusts the image to cover the entire background */
-            background-position: center; /* Centers the image */
-            background-repeat: no-repeat; /* Prevents the image from repeating */
+            background-size: cover; 
+            background-position: center; 
+            background-repeat: no-repeat; 
           }
           h1 {
             font-size: 2.5vw;
             margin: 2% 0;
           }
           .button {
-            border: none;
+            border: solid black 5%;
             color: white;
-            padding: 15px 20px;
+            padding: 10% 10%;
             font-size: 1.2rem;
-            margin: 10px;
-            cursor: pointer;
-            border-radius: 50%;
+            margin: 5%;
+            cursor: pointer; 
+            border-radius: 25%;
             transition: background-color 0.3s ease;
+          }
+          .LedButtons {
+            display: inline-flex;
+            flex-direction: row;
+            align-items: center;
+            padding: 5%;
+            border-radius: 5%;
+            border: solid 10%;
           }
           .green {
             background-color: green;
@@ -49,8 +57,8 @@ void handleRoot() {
             border-radius: 10px;
             height: 20vh;
             overflow-y: auto;
-            width: 90%;
-            max-width: 800px;
+            width: 70%;
+            max-width: 80%;
             background-color: #ffffff;
           }
           .Ledbox {
@@ -91,25 +99,24 @@ void handleRoot() {
             width: 80%;
           }
           .send-button {
-            margin-top: 20px;
-            padding: 10px 20px;
+            margin: 2%;
+            padding: 1% 2%;
             font-size: 1.2rem;
             cursor: pointer;
-            border-radius: 5px;
-            background-color: #007bff;
+            border-radius: 5%;
+            background-color: blue;
             color: white;
-            border: none;
-            transition: background-color 0.3s ease;
+            border: solid 10%;
+            transition: background-color 0.6s ease;
           }
           .send-button:hover {
-            background-color: #0056b3;
+            background-color: green;
           }
           @media (max-width: 768px) {
             h1 {
               font-size: 5vw;
             }
             .button {
-              padding: 10px 15px;
               font-size: 1rem;
             }
             .Serialbox {
@@ -124,7 +131,6 @@ void handleRoot() {
               font-size: 2vw;
             }
             .button {
-              padding: 20px 25px;
               font-size: 1.5rem;
             }
             .Serialbox {
@@ -141,9 +147,12 @@ void handleRoot() {
         <div class="Serialbox" id="serialBox"></div>
         <div class="Ledbox" id="ledStateBox">LED State will appear here...</div>
         <br>
-        <button class="button green" onclick="location.href='/ledOn'">ON</button>
-        <button class="button red" onclick="location.href='/ledOff'">OFF</button>
+        <div class="LedButtons">
+          <button class="button green" onclick="toggleLedOn()">ON</button>
+          <button class="button red" onclick="toggleLedOff()">OFF</button>
+        </div>
         <br>
+
         <div class="ColorInputContainer">
           <div class="Colorbox" style="background-color: rgba(255, 0, 0, 0.6);">
             <label for="redValue">RED</label>
@@ -197,6 +206,20 @@ void handleRoot() {
               .then(data => console.log('Response from ESP32:', data))
               .catch(error => console.error('Error sending RGB values:', error));
           }
+          function toggleLedOn() {
+          fetch('/ledOn')
+              .then(response => response.text())
+              .then(data => console.log('LED ON Response:', data))
+              .catch(error => console.error('Error turning LED ON:', error));
+          }
+
+          function toggleLedOff() {
+          fetch('/ledOff')
+              .then(response => response.text())
+              .then(data => console.log('LED OFF Response:', data))
+              .catch(error => console.error('Error turning LED OFF:', error));
+          }
+
         </script>
       </body>
     </html>
